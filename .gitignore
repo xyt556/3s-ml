@@ -3,3 +3,6 @@ npm-debug.log*
 .env
 *.log
 .DS_Store
+
+# 杂散工具脚本（非网站文件）
+gitpro2.bat
