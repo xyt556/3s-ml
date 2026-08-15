@@ -6,6 +6,10 @@
  * 环境变量：
  *   PORT           监听端口（默认 3000）
  *   ADMIN_PASSWORD 管理后台密码（默认空 = 不启用密码，仅本地使用）
+ *   DATA_DIR       数据存储目录（默认 data/；部署时指向持久磁盘）
+ *
+ * 本地也可把上述变量写进项目根目录的 .env 文件（如 ADMIN_PASSWORD=xxx），
+ * 启动时会自动读取；但 .env 仅本地用，部署到 Render 等请在平台控制台设环境变量。
  *
  * 数据：data/softwares.json（唯一数据源，增删改都会写回此文件并实时推送前端）
  */
@@ -20,6 +24,27 @@ const PUBLIC = path.join(ROOT, 'public');
 const DATA_DIR = process.env.DATA_DIR || path.join(ROOT, 'data');
 fs.mkdirSync(DATA_DIR, { recursive: true });
 const DATA = path.join(DATA_DIR, 'softwares.json');
+
+// ---------- 读取 .env（可选，零依赖；仅作本地便利，不覆盖已有 process.env）----------
+(function loadDotEnv() {
+  const envPath = path.join(ROOT, '.env');
+  if (!fs.existsSync(envPath)) return;
+  const text = fs.readFileSync(envPath, 'utf8');
+  for (const line of text.split(/\r?\n/)) {
+    const m = line.match(/^\s*([\w.]+)\s*=\s*(.*)\s*$/);
+    if (!m) continue; // 跳过空行与注释（# 开头）
+    if (line.trim().startsWith('#')) continue;
+    const key = m[1];
+    let val = m[2];
+    if (
+      (val.startsWith('"') && val.endsWith('"')) ||
+      (val.startsWith("'") && val.endsWith("'"))
+    ) {
+      val = val.slice(1, -1);
+    }
+    if (process.env[key] === undefined) process.env[key] = val;
+  }
+})();
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
