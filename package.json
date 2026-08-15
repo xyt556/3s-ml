@@ -1,0 +1,13 @@
+{
+  "name": "software-intro-site",
+  "version": "1.0.0",
+  "description": "可实时更新内容的软件介绍网站（纯 Node 后端 + 静态前端）",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node scripts/seed.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

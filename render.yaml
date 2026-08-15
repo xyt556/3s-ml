@@ -1,0 +1,21 @@
+# Render 一键部署配置
+# 部署方式：在 Render 新建 "Blueprint" 并关联本仓库，或在 Render 控制台粘贴此文件。
+services:
+  - type: web
+    name: software-intro-site
+    runtime: node
+    plan: free                       # 免费版会休眠；编辑内容持久化需升级 Starter 及以上并挂载磁盘
+    buildCommand: "npm install"
+    startCommand: "node server.js"
+    envVars:
+      - key: NODE_VERSION
+        value: "18"
+      - key: ADMIN_PASSWORD          # 务必设置，否则后台公网裸奔
+        sync: false
+      - key: DATA_DIR
+        value: "/data"
+    # 持久磁盘：仅付费实例可挂载。挂载后后台编辑的内容在重启/重新部署后保留。
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1

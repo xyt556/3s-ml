@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>管理后台 · 软件介绍</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <header class="hero hero-admin">
+    <a class="admin-link" href="/">← 返回网站</a>
+    <h1>管理后台</h1>
+    <p>实时增删改软件内容，保存后立即生效</p>
+  </header>
+
+  <!-- 登录遮罩 -->
+  <div class="login-mask open" id="loginMask">
+    <div class="login-box">
+      <h2>请输入管理密码</h2>
+      <input type="password" id="pwd" placeholder="管理密码" />
+      <button class="btn-primary" id="loginBtn">进入</button>
+      <p class="login-err" id="loginErr"></p>
+    </div>
+  </div>
+
+  <div class="admin-wrap">
+    <div class="tabs">
+      <button class="tab active" data-tab="sw">软件管理</button>
+      <button class="tab" data-tab="set">站点设置</button>
+    </div>
+
+    <!-- 软件管理 -->
+    <section class="panel" id="tab-sw">
+      <div class="panel-bar">
+        <button class="btn-primary" id="addBtn">+ 新增软件</button>
+        <input type="text" id="adminSearch" class="admin-search" placeholder="筛选软件…" />
+        <span class="muted" id="adminCount"></span>
+      </div>
+      <table class="admin-table">
+        <thead>
+          <tr><th>名称</th><th>分类</th><th>版本</th><th>更新</th><th>文章</th><th></th></tr>
+        </thead>
+        <tbody id="adminRows"></tbody>
+      </table>
+    </section>
+
+    <!-- 站点设置 -->
+    <section class="panel" id="tab-set" style="display:none">
+      <div class="form-grid">
+        <label>网站标题<input id="setTitle" type="text" /></label>
+        <label>副标题<input id="setSubtitle" type="text" /></label>
+        <label class="full">页脚说明<textarea id="setFooter" rows="3"></textarea></label>
+        <button class="btn-primary" id="saveSettings">保存设置</button>
+        <span class="muted" id="setMsg"></span>
+      </div>
+    </section>
+  </div>
+
+  <!-- 编辑弹窗 -->
+  <div class="modal-mask" id="editModal">
+    <div class="modal modal-wide">
+      <div class="modal-head">
+        <h2 id="editTitle">新增软件</h2>
+        <button class="modal-close" id="editClose">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <label>软件名称 *<input id="f_name" type="text" /></label>
+          <label>分类<input id="f_category" type="text" list="catlist" /></label>
+          <label>版本<input id="f_version" type="text" /></label>
+          <label>最近更新<input id="f_lastUpdate" type="text" placeholder="2026-08-15" /></label>
+          <label>相关文章数<input id="f_articleCount" type="number" min="0" /></label>
+          <label>原文链接<input id="f_link" type="text" placeholder="https://…" /></label>
+          <label class="full">一句话简介<textarea id="f_description" rows="2"></textarea></label>
+          <label class="full">详细功能（支持 - 列表项）<textarea id="f_detail" rows="6"></textarea></label>
+          <label class="full">标签（逗号分隔）<input id="f_tags" type="text" placeholder="GIS, 机器学习" /></label>
+          <label class="check"><input id="f_featured" type="checkbox" /> 设为精选（置顶）</label>
+        </div>
+      </div>
+      <div class="modal-foot edit-foot">
+        <button class="btn-danger" id="deleteBtn" style="display:none">删除</button>
+        <span style="flex:1"></span>
+        <button class="btn-ghost" id="cancelBtn">取消</button>
+        <button class="btn-primary" id="saveBtn">保存</button>
+      </div>
+    </div>
+  </div>
+  <datalist id="catlist"></datalist>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>
